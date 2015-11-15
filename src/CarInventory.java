@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 /**
  * 
  */
@@ -7,5 +9,10 @@
  *
  */
 public class CarInventory {
+	private ArrayList carsList = new ArrayList();
+	
+	public void addCar(Car aCar) {
+		carsList.add(aCar);
+	}
 
 }
