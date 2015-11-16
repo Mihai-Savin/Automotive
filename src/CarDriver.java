@@ -27,11 +27,20 @@ public class CarDriver {
 		
 		String aChassisNumber = "SOME123CHASSIS000NUMBER";
 				
+		ci.addCar(new Logan(5, "SOME123CHASSIS000NUMBER"));
+		ci.addCar(new Logan(5, "SOME456CHASSIS000NUMBER"));
+		ci.addCar(new Golf(5, "SOME789CHASSIS000NUMBER"));
+		
+				
 		Car theCar = ci.findCar(aChassisNumber); // clones a car object based on its unique chassis number
 		
-		System.out.println("The ID of the identified Car is: " + theCar);
+		System.out.println("The Car which has " + aChassisNumber + " is: " + theCar);
 		
 		ci.removeCar(aChassisNumber); // removes the car from the collection if it exists
+		
+		
+		theCar = ci.findCar(aChassisNumber);
+		System.out.println("The Car which has " + aChassisNumber + " is: " + theCar);
 		
 		List<Car> aCarsList = new ArrayList<Car>();
 		
