@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  */
@@ -20,6 +23,25 @@ public class CarDriver {
 	 * 
 	 */
 	private void handleCars() {
+		CarInventory ci = new CarInventory();
+		
+		String aChassisNumber = "SOME123CHASSIS000NUMBER";
+				
+		Car theCar = ci.findCar(aChassisNumber); // clones a car object based on its unique chassis number
+		
+		System.out.println("The ID of the identified Car is: " + theCar);
+		
+		ci.removeCar(aChassisNumber); // removes the car from the collection if it exists
+		
+		List<Car> aCarsList = new ArrayList<Car>();
+		
+		aCarsList = ci.getMostFuelEfficientCars(); // returns the cars that consume the least amount fuel.
+		
+		System.out.println(aCarsList);
+		
+		
+		
+		
 		Logan jimmy = new Logan(30, "SAAVVVZZ877887");
 		jimmy.shiftGear(Car.FIRST);
 		jimmy.start();
