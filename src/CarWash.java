@@ -11,11 +11,13 @@ import java.util.List;
  *
  */
 public class CarWash {
+	private boolean open;
 
 	/**
 	 * Opens the CarWash for business.
 	 */
 	public void openShop() {
+		open = true;
 		System.out.println("Shop OPENED.");
 		
 	}
