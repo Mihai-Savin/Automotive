@@ -14,5 +14,11 @@ public class CarInventory {
 	public void addCar(Car aCar) {
 		carsList.add(aCar);
 	}
+	
+	public Car findCar(String chassisNumber) {
+		return new Logan();
+		
+		
+	}
 
 }
