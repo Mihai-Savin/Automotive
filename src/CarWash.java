@@ -13,7 +13,9 @@ public class CarWash {
 	private boolean open;
 	private byte currentCar = 0;
 	private byte lastWashedCar = -1;
-	private ArrayList<Car> carsList = new ArrayList<Car>(); //Holds the Cars waiting to be washed.
+	private ArrayList<Car> carsList = new ArrayList<Car>(); // Holds the Cars
+															// waiting to be
+															// washed.
 
 	/**
 	 * Opens the CarWash for business.
