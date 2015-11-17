@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 
+ *  This class fools around with some Cars for demo & testing purposes.
  */
 
 /**
@@ -12,24 +12,24 @@ import java.util.List;
 
 public class CarDriver {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
-		CarDriver someCarDriver = new CarDriver();	//Anonymous object that handles some Car objects for demo purposes
+		CarDriver someCarDriver = new CarDriver();	//This object is able to handle some Cars for demo & testing purposes.
 		someCarDriver.handleCars();
 	}
+	
 	/**
-	 * 
+	 * Fools around with some random hard-coded Cars
 	 */
 	private void handleCars() {
 		CarInventory ci = new CarInventory();
 		
 		String aChassisNumber = "SOME123CHASSIS000NUMBER";
-				
-		ci.addCar(new Logan(5, "SOME123CHASSIS000NUMBER"));
-		ci.addCar(new Logan(5, "SOME456CHASSIS000NUMBER"));
-		ci.addCar(new Golf(5, "SOME789CHASSIS000NUMBER"));
+		Car car1 = new Logan(5, "SOME123CHASSIS000NUMBER");
+		Car car2 = new Logan(5, "SOME456CHASSIS000NUMBER");
+		Car car3 = new Golf(5, "SOME789CHASSIS000NUMBER");
+		ci.addCar(car1);
+		ci.addCar(car2);
+		ci.addCar(car3);
 		
 				
 		Car theCar = ci.findCar(aChassisNumber); // clones a car object based on its unique chassis number
@@ -76,39 +76,14 @@ public class CarDriver {
 		carWash.closeShop();
 
 		List<Car> todaysClients = carWash.getTodaysClients(); // returns all clients that have visited the shop today. If car was washed twice, it should be returned once.
+		
+		System.out.println("Today the following Cars were washed: \n" + todaysClients);
 
 		List<Car> postponedClients = carWash.getPostponedClients(); // returns a list of clients who did not get to have their car washed. The shop closed while they were standing in line.
 		
+		System.out.println("Today the following Cars were left unwashed: \n" + postponedClients);
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+				
 		
 		Logan jimmy = new Logan(30, "SAAVVVZZ877887");
 		jimmy.shiftGear(Car.FIRST);
@@ -179,13 +154,13 @@ public class CarDriver {
 
 		vehicle.stop();
 
-		Car car1 = (Car) vehicle;
+		Car car11 = (Car) vehicle;
 
-		float availableFuel1 = car1.getAvailableFuel();
+		float availableFuel1 = car11.getAvailableFuel();
 
-		float fuelConsumedPer100Km1 = car1.getAverageFuelConsumption();
+		float fuelConsumedPer100Km1 = car11.getAverageFuelConsumption();
 
-		float pollutionPerKm1 = car1.getPollution();
+		float pollutionPerKm1 = car11.getPollution();
 		
 		System.out.println("Available fuel: " + availableFuel1);
 		System.out.println("Average session fuel consumption: " + fuelConsumedPer100Km1);
