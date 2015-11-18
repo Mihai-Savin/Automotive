@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -12,12 +14,20 @@ import java.util.List;
  *
  */
 public class CarInventory {
-	
+
 	/**
 	 * Holds the Cars inside itself.
 	 * 
 	 */
 	private List<Car> carsList = new ArrayList<Car>();
+
+	private static final Comparator<Car> COMPARE_BY_FUEL_CONSUMPTION = new Comparator<Car>() {
+		@Override
+		public int compare(Car car1, Car car2) {
+			return ((Float) (car1.getStandardAverageFuelConsumption()))
+					.compareTo((Float) (car2.getStandardAverageFuelConsumption()));
+		}
+	};
 
 	/**
 	 * Adds a Car to the List.
@@ -48,29 +58,27 @@ public class CarInventory {
 
 	}
 
-	/** 
+	/**
 	 * Removes a Car based on it's unique chassis number.
+	 * 
 	 * @param chassisNumber
 	 */
 	public void removeCar(String chassisNumber) {
 		carsList.remove(findCar(chassisNumber));
 		System.out.println("Car REMOVED.");
 	}
-		
-	/** 
-	 * Finds the most fuel efficient Cars.
+
+	/**
+	 * Orders the Car records/ objects by fuel efficiency.
+	 * 
 	 * @return the a list of cars that consume the least amount fuel
 	 */
 	public List<Car> getMostFuelEfficientCars() {
 		List<Car> theCarsList = new ArrayList<Car>();
-		theCarsList.add(new Logan(5, "ASSAAAVVV"));
-		theCarsList.add(new Logan(10, "WASSAAAVVV"));
-		theCarsList.add(new Logan(10, "XWASSAAAVVV"));
-		return theCarsList;
+		Collections.sort(carsList, COMPARE_BY_FUEL_CONSUMPTION);
+		return theCarsList = carsList;
 	}
 
-	
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -79,7 +87,6 @@ public class CarInventory {
 		return result;
 	}
 
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -96,4 +103,6 @@ public class CarInventory {
 			return false;
 		return true;
 	}
+	
+
 }
