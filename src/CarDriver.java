@@ -13,81 +13,26 @@ import java.util.List;
 public class CarDriver {
 
 	public static void main(String[] args) {
-		CarDriver someCarDriver = new CarDriver();	//This object is able to handle some Cars for demo & testing purposes.
+		CarDriver someCarDriver = new CarDriver(); // This object is able to
+													// handle some Cars for demo
+													// & testing purposes.
 		someCarDriver.handleCars();
 	}
-	
+
 	/**
 	 * Fools around with some random hard-coded Cars
 	 */
 	private void handleCars() {
-		CarInventory ci = new CarInventory();
-		
-		String aChassisNumber = "SOME123CHASSIS000NUMBER";
-		Car car1 = new Logan(5, "SOME123CHASSIS000NUMBER");
-		Car car2 = new Logan(5, "SOME456CHASSIS000NUMBER");
-		Car car3 = new Golf(5, "SOME789CHASSIS000NUMBER");
-		Car car4 = new Golf(10, "SOME999CHASSIS000NUMBER");
-		ci.addCar(car1);
-		ci.addCar(car2);
-		ci.addCar(car3);
-		ci.addCar(car4);
-		
-		System.out.println("Most fuel eficient cars in descending order are: " + ci.getMostFuelEfficientCars());
-		
-		Car theCar = ci.findCar(aChassisNumber); // clones a car object based on its unique chassis number
-		
-		System.out.println("The Car which has " + aChassisNumber + " is: " + theCar);
-		
-		ci.removeCar(aChassisNumber); // removes the car from the collection if it exists
-		
-		
-		theCar = ci.findCar(aChassisNumber);
-		System.out.println("The Car which has " + aChassisNumber + " is: " + theCar);
-		
-		List<Car> aCarsList = new ArrayList<Car>();
-		
-		aCarsList = ci.getMostFuelEfficientCars(); // returns the cars that consume the least amount fuel.
-		
-		System.out.println(aCarsList);
-		
-		
-		CarWash carWash = new CarWash();
+		registerCars();		//Car Inventory Homework
+		washCars();		//Car washing HW
+		driveCars(); //Legacy HW
 
-		carWash.openShop();
+	}
 
-		carWash.standInLine(car1); // car stands in line to get washed.
-
-		carWash.standInLine(car2); // car2 stands in line to get washed.
-
-		carWash.washCar(); // will wash the first car standing in line, which is car1
-
-		carWash.standInLine(car3);
-
-		carWash.washCar(); // will wash the next car standing in line, which is car2
-
-		carWash.standInLine(car1);
-
-		carWash.washCar();
-
-		carWash.standInLine(car2);
-
-		carWash.standInLine(car3);
-
-		carWash.standInLine(car3);
-
-		carWash.closeShop();
-
-		List<Car> todaysClients = carWash.getTodaysClients(); // returns all clients that have visited the shop today. If car was washed twice, it should be returned once.
+	private void driveCars() {
 		
-		System.out.println("Today the following Cars were washed: \n" + todaysClients);
+		System.out.println("------------------CARS DRIVING-----------------");
 
-		List<Car> postponedClients = carWash.getPostponedClients(); // returns a list of clients who did not get to have their car washed. The shop closed while they were standing in line.
-		
-		System.out.println("Today the following Cars were left unwashed: \n" + postponedClients);
-		
-				
-		
 		Logan jimmy = new Logan(30, "SAAVVVZZ877887");
 		jimmy.shiftGear(Car.FIRST);
 		jimmy.start();
@@ -96,9 +41,9 @@ public class CarDriver {
 		jimmy.drive(200);
 		jimmy.drive(20.1);
 		jimmy.drive(0.2);
-		
+
 		jimmy.stop();
-		
+
 		Car car = new Logan(27, "oiqe0934hkkadsn");
 
 		car.start();
@@ -147,9 +92,8 @@ public class CarDriver {
 		System.out.println("Average session fuel consumption: " + fuelConsumedPer100Km);
 		System.out.println("Pollution: " + pollutionPerKm);
 
-
-
-		Vehicle vehicle = new Golf(30, "1987ddkshik289"); //available fuel and chassis number
+		Vehicle vehicle = new Golf(30, "1987ddkshik289"); // available fuel and
+															// chassis number
 
 		vehicle.start();
 
@@ -164,13 +108,120 @@ public class CarDriver {
 		float fuelConsumedPer100Km1 = car11.getAverageFuelConsumption();
 
 		float pollutionPerKm1 = car11.getPollution();
-		
+
 		System.out.println("Available fuel: " + availableFuel1);
 		System.out.println("Average session fuel consumption: " + fuelConsumedPer100Km1);
 		System.out.println("Pollution: " + pollutionPerKm1);
 
+	}
+
+	private void washCars() {
 		
+		System.out.println("------------------CARS WASHING-----------------");
 		
+		CarWash carWash = new CarWash();
+
+		String aChassisNumber = "SOME123CHASSIS000NUMBER";
+		Car car1 = new Logan(5, "SOME123CHASSIS000NUMBER");
+		Car car2 = new Logan(5, "SOME456CHASSIS000NUMBER");
+		Car car3 = new Golf(5, "SOME789CHASSIS000NUMBER");
+		Car car4 = new Golf(10, "SOME999CHASSIS000NUMBER");
+
+		carWash.openShop();
+
+		carWash.standInLine(car1); // car stands in line to get washed.
+
+		carWash.standInLine(car2); // car2 stands in line to get washed.
+
+		carWash.washCar(); // will wash the first car standing in line, which is
+							// car1
+
+		carWash.standInLine(car3);
+
+		carWash.washCar(); // will wash the next car standing in line, which is
+							// car2
+
+		carWash.standInLine(car1);
+
+		carWash.washCar();
+
+		carWash.standInLine(car2);
+
+		carWash.standInLine(car3);
+
+		carWash.standInLine(car3);
+
+		carWash.closeShop();
+
+		List<Car> todaysClients = carWash.getTodaysClients(); // returns all
+																// clients that
+																// have visited
+																// the shop
+																// today. If car
+																// was washed
+																// twice, it
+																// should be
+																// returned
+																// once.
+
+		System.out.println("Today the following Cars were washed: \n" + todaysClients);
+
+		List<Car> postponedClients = carWash.getPostponedClients(); // returns a
+																	// list of
+																	// clients
+																	// who did
+																	// not get
+																	// to have
+																	// their car
+																	// washed.
+																	// The shop
+																	// closed
+																	// while
+																	// they were
+																	// standing
+																	// in line.
+
+		System.out.println("Today the following Cars were left unwashed: \n" + postponedClients);
+
+	}
+
+	private void registerCars() {
+		
+		System.out.println("------------------CARS INVENTORY-----------------");
+		
+		CarInventory ci = new CarInventory();
+
+		String aChassisNumber = "SOME123CHASSIS000NUMBER";
+		Car car1 = new Logan(5, "SOME123CHASSIS000NUMBER");
+		Car car2 = new Logan(5, "SOME456CHASSIS000NUMBER");
+		Car car3 = new Golf(5, "SOME789CHASSIS000NUMBER");
+		Car car4 = new Golf(10, "SOME999CHASSIS000NUMBER");
+		ci.addCar(car1);
+		ci.addCar(car2);
+		ci.addCar(car3);
+		ci.addCar(car4);
+
+		System.out.println("Most fuel eficient cars in descending order are: " + ci.getMostFuelEfficientCars());
+
+		Car theCar = ci.findCar(aChassisNumber); // clones a car object based on
+													// its unique chassis number
+
+		System.out.println("The Car which has " + aChassisNumber + " is: " + theCar);
+
+		ci.removeCar(aChassisNumber); // removes the car from the collection if
+										// it exists
+
+		theCar = ci.findCar(aChassisNumber);
+		System.out.println("The Car which has " + aChassisNumber + " is: " + theCar);
+
+		List<Car> aCarsList = new ArrayList<Car>();
+
+		aCarsList = ci.getMostFuelEfficientCars(); // returns the cars that
+													// consume the least amount
+													// fuel.
+
+		System.out.println(aCarsList);
+
 	}
 
 }
