@@ -1,3 +1,4 @@
+package ro.mihaisavin.automotive;
 
 /**
  * 
@@ -13,7 +14,7 @@ public class Golf extends Volkswagen {
 	public Golf() {
 		super(); //just for testing purposes
 		this.fuelType = FUEL_TYPES[1]; // diesel engine
-		this.averageFuelConsumption = 4.3f;
+		this.standardAverageFuelConsumption = 4.3f;
 		this.averagePollution = 20; // gramms per KM
 		this.tankSize = 55;
 	}
@@ -96,7 +97,7 @@ public class Golf extends Volkswagen {
 	 * @return
 	 */
 	protected float consume(float distance) { //
-		float amountConsumed = distance / 100 * averageFuelConsumption; // average
+		float amountConsumed = distance / 100 * standardAverageFuelConsumption; // average
 																		// fuel
 																		// consumed
 		switch (this.currentGear) { // Optimized for most often usage of gears

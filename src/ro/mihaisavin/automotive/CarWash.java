@@ -1,3 +1,4 @@
+package ro.mihaisavin.automotive;
 import java.util.ArrayList;
 import java.util.List;
 

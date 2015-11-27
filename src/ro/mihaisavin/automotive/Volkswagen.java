@@ -1,3 +1,4 @@
+package ro.mihaisavin.automotive;
 /**
  * 
  */

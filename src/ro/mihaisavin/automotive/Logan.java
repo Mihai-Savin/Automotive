@@ -1,3 +1,4 @@
+package ro.mihaisavin.automotive;
 
 /**
  * 
@@ -10,17 +11,15 @@
 public class Logan extends Dacia {
 
 	public Logan() {
-		super();
-		this.fuelType = FUEL_TYPES[0]; // petrol engine
-		this.averageFuelConsumption = 4.7f;
-		this.averagePollution = 30; // gramms per KM
-		this.tankSize = 50;
+		super();		
 	}
 
 	public Logan(int fuelAmount, String chassisNumber) {
-		this();
-		this.fuelAmount = fuelAmount;
-		this.chassisNumber = chassisNumber;
+		super(fuelAmount, chassisNumber);
+		fuelType = FUEL_TYPES[0]; // petrol engine
+		standardAverageFuelConsumption = 4.7f;
+		averagePollution = 30; // gramms per KM
+		tankSize = 50;		
 	}
 
 	@Override
@@ -78,7 +77,7 @@ public class Logan extends Dacia {
 	}
 
 	/**
-	 * calculates consumption depending on gear and distance and updates total
+	 * Calculates consumption depending on gear and distance and updates total
 	 * car consumption and remaining quantity of fuel
 	 * 
 	 * @param distance
@@ -90,7 +89,7 @@ public class Logan extends Dacia {
 	 * @return
 	 */
 	protected float consume(float distance) { //
-		float amountConsumed = distance / 100 * averageFuelConsumption; // average
+		float amountConsumed = distance / 100 * standardAverageFuelConsumption; // average
 																		// fuel
 																		// consumed
 		switch (this.currentGear) { // Optimized for most often usage of gears
