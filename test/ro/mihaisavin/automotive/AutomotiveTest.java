@@ -24,8 +24,8 @@ public class AutomotiveTest {
 	@Test
 	public void checkAddCar() {
 		Car aCar = new Logan(10, "SAAVVV123ABC");
-		aCarInventory.addCar(aCar);
-		Car foundCar = aCarInventory.findCar("SAAVVV123ABC");
+		aCarInventory.add(aCar);
+		Car foundCar = aCarInventory.find("SAAVVV123ABC");
 		System.out.println(aCar.hashCode());
 		System.out.println(foundCar.hashCode());
 

@@ -197,22 +197,22 @@ public class CarDriver {
 		Car car2 = new Logan(5, "SOME456CHASSIS000NUMBER");
 		Car car3 = new Golf(5, "SOME789CHASSIS000NUMBER");
 		Car car4 = new Golf(10, "SOME999CHASSIS000NUMBER");
-		ci.addCar(car1);
-		ci.addCar(car2);
-		ci.addCar(car3);
-		ci.addCar(car4);
+		ci.add(car1);
+		ci.add(car2);
+		ci.add(car3);
+		ci.add(car4);
 
 		System.out.println("Most fuel eficient cars in descending order are: " + ci.getMostFuelEfficientCars());
 
-		Car theCar = ci.findCar(aChassisNumber); // clones a car object based on
+		Car theCar = ci.find(aChassisNumber); // clones a car object based on
 													// its unique chassis number
 
 		System.out.println("The Car which has " + aChassisNumber + " is: " + theCar);
 
-		ci.removeCar(aChassisNumber); // removes the car from the collection if
+		ci.remove(aChassisNumber); // removes the car from the collection if
 										// it exists
 
-		theCar = ci.findCar(aChassisNumber);
+		theCar = ci.find(aChassisNumber);
 		System.out.println("The Car which has " + aChassisNumber + " is: " + theCar);
 
 		List<Car> aCarsList = new ArrayList<Car>();

@@ -20,7 +20,7 @@ public class CarInventory {
 	 * Holds the Cars inside itself.
 	 * 
 	 */
-	private List<Car> carsList = new ArrayList<Car>();
+	private List<Car> theListOfCars = new ArrayList<Car>();
 
 	private static final Comparator<Car> COMPARE_BY_FUEL_CONSUMPTION = new Comparator<Car>() {
 		@Override
@@ -35,8 +35,8 @@ public class CarInventory {
 	 * 
 	 * @param aCar
 	 */
-	public void addCar(Car aCar) {
-		carsList.add(aCar);
+	public void add(Car aCar) {
+		theListOfCars.add(aCar);
 		System.out.println("Car ADDED.");
 	}
 
@@ -47,8 +47,8 @@ public class CarInventory {
 	 * @param chassisNumber
 	 * @return the Car object based on its unique chassis number
 	 */
-	public Car findCar(String chassisNumber) {
-		for (Car aCar : carsList) {
+	public Car find(String chassisNumber) {
+		for (Car aCar : theListOfCars) {
 			if (aCar.chassisNumber.equals(chassisNumber)) {
 				System.out.println("Car FOUND.");
 				return aCar;
@@ -64,8 +64,8 @@ public class CarInventory {
 	 * 
 	 * @param chassisNumber
 	 */
-	public void removeCar(String chassisNumber) {
-		carsList.remove(findCar(chassisNumber));
+	public void remove(String chassisNumber) {
+		theListOfCars.remove(find(chassisNumber));
 		System.out.println("Car REMOVED.");
 	}
 
@@ -76,15 +76,16 @@ public class CarInventory {
 	 */
 	public List<Car> getMostFuelEfficientCars() {
 		List<Car> theCarsList = new ArrayList<Car>();
-		Collections.sort(carsList, COMPARE_BY_FUEL_CONSUMPTION);
-		return theCarsList = carsList;
+		Collections.sort(theListOfCars, COMPARE_BY_FUEL_CONSUMPTION);
+		theCarsList  = theListOfCars;
+		return theCarsList;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((carsList == null) ? 0 : carsList.hashCode());
+		result = prime * result + ((theListOfCars == null) ? 0 : theListOfCars.hashCode());
 		return result;
 	}
 
@@ -97,10 +98,10 @@ public class CarInventory {
 		if (getClass() != obj.getClass())
 			return false;
 		CarInventory other = (CarInventory) obj;
-		if (carsList == null) {
-			if (other.carsList != null)
+		if (theListOfCars == null) {
+			if (other.theListOfCars != null)
 				return false;
-		} else if (!carsList.equals(other.carsList))
+		} else if (!theListOfCars.equals(other.theListOfCars))
 			return false;
 		return true;
 	}

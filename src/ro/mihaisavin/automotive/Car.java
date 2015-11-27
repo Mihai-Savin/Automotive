@@ -8,6 +8,18 @@ package ro.mihaisavin.automotive;
  *
  */
 public abstract class Car implements Vehicle {
+	protected static final class Gears {
+		static final int REVERSE = -1, //
+				NEUTRAL = 0, // 
+				FIRST = 1, //
+				SECOND = 2, //
+				THIRD = 3, //
+				FOURTH = 4, //
+				FIFTH = 5; //	
+	}
+
+	// I don't know how to refactor this block, so for legacy/regression purposes I
+	// leaved it as it is.
 	protected static final int FIRST = 1;
 	protected static final int SECOND = 2;
 	protected static final int THIRD = 3;
@@ -15,6 +27,7 @@ public abstract class Car implements Vehicle {
 	protected static final int FIFTH = 5;
 	protected static final int NEUTRAL = 0;
 	protected static final int REVERSE = -1;
+	// End of legacy block
 	protected static final String[] FUEL_TYPES = { "PETROL", "DIESEL", "HYBRID", "ELECTRIC" };
 	protected int tankSize;
 	protected String fuelType;
@@ -55,7 +68,7 @@ public abstract class Car implements Vehicle {
 		if ("".equals(chassisNumber) || chassisNumber == null) {
 			throw new IllegalArgumentException("Cannot create a Car with null or empty chassis number");
 		}
-		
+
 		this.fuelAmount = fuelAmount;
 		this.chassisNumber = chassisNumber;
 	}
@@ -83,8 +96,7 @@ public abstract class Car implements Vehicle {
 			System.out.println("Changing gear...\nCurrent gear is: " + this.currentGear);
 		} else {
 			System.out.println("Error: Invalid gear. Current gear is: " + this.currentGear);
-			System.out.println("Exiting app...");
-			System.exit(1);
+			throw new IllegalArgumentException(gear + " is not a valid gear.");
 		}
 
 	}
@@ -183,10 +195,14 @@ public abstract class Car implements Vehicle {
 	}
 
 	/**
+	 * Checks for correct gear, needed to start the car. If the gear is not
+	 * right, the car cannot be started, consequently displaying an error
+	 * message and returning a false value.
+	 * 
 	 * @return true if in correct gear, false if in some other gear
 	 */
 	protected boolean checkGear() {
-		if (this.currentGear > FIRST) {
+		if ((currentGear < Gears.REVERSE) || (currentGear > FIRST)) {
 			System.out.println("Please make sure you are in the correct gear(NEUTRAL, FIRST or REVERSE)");
 			// this line could System.exit(1) I chose to simply return an error
 			// message in the following return statement
