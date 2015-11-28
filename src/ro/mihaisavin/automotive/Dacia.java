@@ -4,11 +4,11 @@ package ro.mihaisavin.automotive;
  */
 
 /**
- * @author Meehai Savin
+ * @author Mihai Savin
  *
  */
 public abstract class Dacia extends Car {
-	public Dacia(int fuelAmount, String chassisNumber) {
+	public Dacia(float fuelAmount, String chassisNumber) {
 		super(fuelAmount, chassisNumber);
 		manufacturerName = "Dacia-Renault Automobile S.A.";		
 		manufacturerLicense = "All type of automobiles";

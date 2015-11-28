@@ -1,38 +1,52 @@
 package ro.mihaisavin.automotive;
-/**
- * 
- */
 
 /**
  * @author Mihai Savin
  *
  */
+/**
+ * @author Me
+ *
+ */
 public abstract class Car implements Vehicle {
-	protected static final class Gears {
+	static final class Gears {
 		static final int REVERSE = -1, //
-				NEUTRAL = 0, // 
+				NEUTRAL = 0, //
 				FIRST = 1, //
 				SECOND = 2, //
 				THIRD = 3, //
 				FOURTH = 4, //
-				FIFTH = 5; //	
+				FIFTH = 5; //
 	}
 
-	// I don't know how to refactor this block, so for legacy/regression purposes I
-	// leaved it as it is.
-	protected static final int FIRST = 1;
-	protected static final int SECOND = 2;
-	protected static final int THIRD = 3;
-	protected static final int FOURTH = 4;
-	protected static final int FIFTH = 5;
-	protected static final int NEUTRAL = 0;
-	protected static final int REVERSE = -1;
+	// I don't know how to refactor this block into the upper class Gears, so
+	// for legacy/regression purposes I
+	// leaved it as it is. Any ideas? 10x
+	/**
+	 * @deprecated since v0.2
+	 * @see #this.Gears
+	 */
+	@Deprecated
+	static final int FIRST = 1;
+	@Deprecated
+	static final int SECOND = 2;
+	@Deprecated
+	static final int THIRD = 3;
+	@Deprecated
+	static final int FOURTH = 4;
+	@Deprecated
+	static final int FIFTH = 5;
+	@Deprecated
+	static final int NEUTRAL = 0;
+	@Deprecated
+	static final int REVERSE = -1;
+
 	// End of legacy block
 	protected static final String[] FUEL_TYPES = { "PETROL", "DIESEL", "HYBRID", "ELECTRIC" };
 	protected int tankSize;
 	protected String fuelType;
 	protected int numOfGears = 6;
-	protected int currentGear = NEUTRAL;
+	protected int currentGear = Gears.NEUTRAL;
 	protected float standardAverageFuelConsumption; // liters per 100 KM
 	protected float averagePollution; // pollution per KM
 	protected float fuelAmount; // existent quantity of fuel in tank
@@ -56,20 +70,20 @@ public abstract class Car implements Vehicle {
 	/**
 	 * Default constructor.
 	 * 
-	 * @param fuelAmount
+	 * @param fuelAmount2
 	 * 
 	 *            indicates how much fuel there is in the tank
 	 * @param chassisNumber
 	 */
-	public Car(int fuelAmount, String chassisNumber) {
-		if (fuelAmount < 0) {
+	public Car(float fuelAmount2, String chassisNumber) {
+		if (fuelAmount2 < 0) {
 			throw new IllegalArgumentException("Cannot create a Car with negative fuel amount.");
 		}
 		if ("".equals(chassisNumber) || chassisNumber == null) {
 			throw new IllegalArgumentException("Cannot create a Car with null or empty chassis number");
 		}
 
-		this.fuelAmount = fuelAmount;
+		this.fuelAmount = fuelAmount2;
 		this.chassisNumber = chassisNumber;
 	}
 
@@ -80,8 +94,31 @@ public abstract class Car implements Vehicle {
 		this(0, "JUST A DUMMY CAR. NO CHASSIS NUMBER. FOR TESTING PURPOSES");
 	}
 
-	public float getStandardAverageFuelConsumption() {
-		return standardAverageFuelConsumption;
+	/**
+	 * Checks for correct gear, needed to start the car. If the gear is not
+	 * right, the car cannot be started, consequently displaying an error
+	 * message and returning a false value.
+	 * 
+	 * @return true if in correct gear, false if in some other gear
+	 */
+	protected boolean checkGearForStarting() {
+		if ((currentGear < Gears.REVERSE) || (currentGear > Gears.FIRST)) {
+			System.out.println("Please make sure you are in the correct gear(NEUTRAL, FIRST or REVERSE)");
+			// this line could System.exit(1) I chose to simply return an error
+			// message in the following return statement
+			return false;
+		}
+		return true;
+	}
+
+	public void start() {
+		if (!this.checkGearForStarting())
+			return;
+		this.distance = 0; // resets the total driven distance
+		this.consumption = 0; // resets the total consumption since started
+		this.pollution = 0; // resets the total pollution since started
+		this.started = true;
+		System.out.println(this.toString() + " started.");
 	}
 
 	/**
@@ -90,8 +127,9 @@ public abstract class Car implements Vehicle {
 	 * @param gear
 	 */
 	public void shiftGear(int gear) {
-		if ((gear < this.numOfGears) && (gear >= REVERSE)) { // checks for
-																// errors
+		if ((gear < this.numOfGears) && (gear >= Car.Gears.REVERSE)) { // checks
+																		// for
+			// errors
 			currentGear = gear;
 			System.out.println("Changing gear...\nCurrent gear is: " + this.currentGear);
 		} else {
@@ -102,10 +140,122 @@ public abstract class Car implements Vehicle {
 	}
 
 	/**
+	 * Drives the Car for some distance defined as double - polymorphism
+	 * @throws NotEnoughFuelException 
+	 * 
+	 */
+	public void drive(float distance) throws NotEnoughFuelException {
+		checkGearForDriving();
+		checkFuelLevel();
+
+		float consumedFuel; // this block check to see if there is enough fuel
+							// to drive the specified distance I COULDNT EXTRACT
+							// IT IN A SEPARATE METHOD
+
+		consumedFuel = consume(distance);
+		if (consumedFuel > this.fuelAmount) {
+			System.out.println("Cannot drive so much, not enough fuel.");
+			throw new NotEnoughFuelException("Insufficient fuel for " + distance + " kilometers.");
+		}
+		
+		this.distance += distance;
+		this.consumption += consumedFuel;
+		this.fuelAmount -= consumedFuel;
+		this.pollution += distance * this.averagePollution;
+	}
+
+	/**
+	 * Checks to see if fuel is lower than minimum and critical fuel level. If
+	 * fuel low there will be a warning. If fuel critical the car will not be
+	 * able to drive anymore and the app will exit.
+	 */
+	protected void checkFuelLevel() {
+		if (this.fuelAmount < 1) {
+			System.out.println("Cannot drive anymore. Critical fuel level. Almost empty.");
+
+			// return; //exits only the method
+			System.out.println("Exiting app...");
+			System.exit(1);
+
+		} else if (this.fuelAmount < 10) {
+			System.out.println("Low fuel level. Please refuel.");
+		}
+	}
+
+	/**
+	 * Checks to see if car is started and if current gear is valid for driving.
+	 */
+	protected void checkGearForDriving() {
+		if (!started || currentGear == Car.Gears.NEUTRAL) { // chechs if car
+															// is started
+															// and in some
+															// driveable
+															// gear
+			System.out.println("Car not started or not in a gear. Please correct this.");
+			throw new IllegalStateException(
+					"Cannot drive while engine OFF (Car not started)" + " or if current gear is NEUTRAL");
+		}
+	}
+
+	/**
+	 * Drives the Car for some distance defined as double - polymorphism
+	 * 
+	 * @param distance
+	 * @throws NotEnoughFuelException 
+	 */
+	public void drive(double distance) throws NotEnoughFuelException { // artifice for double type parameter
+		this.drive((float) distance);
+	}
+
+	/**
+	 * Stops the Vehicle
+	 */
+	public void stop() {
+		if (!started) {
+			System.out.println("Cannot stop car. It is not started.");
+			return;
+		}
+		this.started = false;
+		System.out.println(this.toString() + " stopped.");
+	}
+
+	/**
 	 * @return amount of available fuel in gas tank
 	 */
 	public float getAvailableFuel() {
 		return this.fuelAmount;
+	}
+
+	public float getStandardAverageFuelConsumption() {
+		return standardAverageFuelConsumption;
+	}
+
+	/**
+	 * Calculates consumption depending on gear and distance and updates total
+	 * car consumption and remaining quantity of fuel
+	 * 
+	 * @param distance
+	 *            distance driven
+	 * @return quantity of consumed fuel
+	 */
+	/**
+	 * @param distance
+	 * @return
+	 */
+
+	/**
+	 * @return the average consumption since the last start of the car
+	 */
+	public float getAverageFuelConsumption() {
+		if (consumption != 0) {
+			return consumption / distance * 100; // returns the average
+													// consumption since the
+													// last start of the car
+		} else {
+			System.out.println("Car has not consumed anything.");
+			return 0f;
+		}
+
 	}
 
 	/**
@@ -123,30 +273,17 @@ public abstract class Car implements Vehicle {
 	}
 
 	/**
-	 * Drives the Car for some distance defined as double - polymorphism
+	 * Calculates consumption depending on gear and distance and updates total
+	 * car consumption and remaining quantity of fuel
 	 * 
 	 * @param distance
+	 *            distance driven
+	 * @return quantity of consumed fuel
 	 */
-	public void drive(double distance) { // artifice for double type parameter
-		this.drive((float) distance);
-	}
-
 	/**
-	 * Calculates the average fuel consumption per session(start to stop).
-	 * 
+	 * @param distance
 	 * @return
 	 */
-	public float getAverageFuelConsumption() {
-		if (consumption != 0) {
-			return consumption / distance * 100; // returns the average
-													// consumption since the
-													// last start of the car
-		} else {
-			System.out.println("Car has not consumed anything.");
-			return 0f;
-		}
-
-	}
 
 	@Override
 	public int hashCode() {
@@ -195,23 +332,6 @@ public abstract class Car implements Vehicle {
 	}
 
 	/**
-	 * Checks for correct gear, needed to start the car. If the gear is not
-	 * right, the car cannot be started, consequently displaying an error
-	 * message and returning a false value.
-	 * 
-	 * @return true if in correct gear, false if in some other gear
-	 */
-	protected boolean checkGear() {
-		if ((currentGear < Gears.REVERSE) || (currentGear > FIRST)) {
-			System.out.println("Please make sure you are in the correct gear(NEUTRAL, FIRST or REVERSE)");
-			// this line could System.exit(1) I chose to simply return an error
-			// message in the following return statement
-			return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Consumes a specific amount of fuel depending on the distance and the
 	 * current gear.
 	 * 
@@ -219,5 +339,18 @@ public abstract class Car implements Vehicle {
 	 * @return
 	 */
 	protected abstract float consume(float distance);
+
+	/**
+	 * Calculates consumption depending on gear and distance and updates total
+	 * car consumption and remaining quantity of fuel
+	 * 
+	 * @param distance
+	 *            distance driven
+	 * @return quantity of consumed fuel
+	 */
+	/**
+	 * @param distance
+	 * @return
+	 */
 
 }

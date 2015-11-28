@@ -17,20 +17,26 @@ public class CarDriver {
 		CarDriver someCarDriver = new CarDriver(); // This object is able to
 													// handle some Cars for demo
 													// & testing purposes.
-		someCarDriver.handleCars();
+		try {
+			someCarDriver.handleCars();
+		} catch (NotEnoughFuelException e) {
+			System.out.println("There was a car that tried to dirve a distance without having enoug fuel in the tank.");
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * Fools around with some random hard-coded Cars
+	 * @throws NotEnoughFuelException 
 	 */
-	private void handleCars() {
+	private void handleCars() throws NotEnoughFuelException {
 		registerCars();		//Car Inventory Homework
 		washCars();		//Car washing HW
 		driveCars(); //Legacy HW
 
 	}
 
-	private void driveCars() {
+	private void driveCars() throws NotEnoughFuelException {
 		
 		System.out.println("------------------CARS DRIVING-----------------");
 
@@ -97,8 +103,13 @@ public class CarDriver {
 															// chassis number
 
 		vehicle.start();
+		
 
-		vehicle.drive(1);
+		try {
+			vehicle.drive(1);
+		} catch (IllegalStateException e) {			
+			System.out.println(e.getMessage());
+		}
 
 		vehicle.stop();
 
