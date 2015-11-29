@@ -22,7 +22,7 @@ public class CarWash {
 	 * Opens the CarWash for business.
 	 */
 	public void openShop() {
-		open = true;
+		setOpen(true);
 		System.out.println("Shop OPENED.");
 	}
 
@@ -47,9 +47,10 @@ public class CarWash {
 	 * Closes the CarWash for business.
 	 */
 	public void closeShop() {
+		setOpen(false);
 		System.out.println("Shop CLOSED.");
 		if (currentCar > 0) {
-			lastWashedCar = (byte) (currentCar - 1);
+			setLastWashedCar((byte) (currentCar - 1));
 		} else {
 			System.out.println("No Cars washed today.");
 		}
@@ -84,6 +85,34 @@ public class CarWash {
 		}
 		return theCarsList;
 
+	}
+
+	/**
+	 * @return the open
+	 */
+	public boolean isOpen() {
+		return open;
+	}
+
+	/**
+	 * @param open the open to set
+	 */
+	public void setOpen(boolean open) {
+		this.open = open;
+	}
+
+	/**
+	 * @return the lastWashedCar
+	 */
+	public byte getLastWashedCar() {
+		return lastWashedCar;
+	}
+
+	/**
+	 * @param lastWashedCar the lastWashedCar to set
+	 */
+	public void setLastWashedCar(byte lastWashedCar) {
+		this.lastWashedCar = lastWashedCar;
 	}
 
 }

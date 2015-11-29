@@ -36,6 +36,7 @@ public class CarDriver {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	private void driveCars() throws NotEnoughFuelException {
 		
 		System.out.println("------------------CARS DRIVING-----------------");
@@ -133,11 +134,11 @@ public class CarDriver {
 		
 		CarWash carWash = new CarWash();
 
-		String aChassisNumber = "SOME123CHASSIS000NUMBER";
+//		String aChassisNumber = "SOME123CHASSIS000NUMBER";
 		Car car1 = new Logan(5, "SOME123CHASSIS000NUMBER");
 		Car car2 = new Logan(5, "SOME456CHASSIS000NUMBER");
 		Car car3 = new Golf(5, "SOME789CHASSIS000NUMBER");
-		Car car4 = new Golf(10, "SOME999CHASSIS000NUMBER");
+//		Car car4 = new Golf(10, "SOME999CHASSIS000NUMBER");
 
 		carWash.openShop();
 

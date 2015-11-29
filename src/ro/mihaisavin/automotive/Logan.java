@@ -8,17 +8,17 @@ package ro.mihaisavin.automotive;
  */
 public class Logan extends Dacia {
 
-	public Logan() {
-		super();
-	}
-
 	public Logan(float fuelAmount, String chassisNumber) {
 		super(fuelAmount, chassisNumber);
-
+	
 		fuelType = FUEL_TYPES[0]; // petrol engine
 		standardAverageFuelConsumption = 4.7f;
 		averagePollution = 30; // gramms per KM
 		tankSize = 50;
+	}
+
+	public Logan() {
+		super();
 	}
 
 	protected float consume(float distance) { //

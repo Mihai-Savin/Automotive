@@ -9,8 +9,8 @@ package ro.mihaisavin.automotive;
  *
  */
 public abstract class Car implements Vehicle {
-	static final class Gears {
-		static final int REVERSE = -1, //
+	public interface Gears { // this is a shortcut for static final ;)
+		int REVERSE = -1, //
 				NEUTRAL = 0, //
 				FIRST = 1, //
 				SECOND = 2, //
@@ -40,8 +40,8 @@ public abstract class Car implements Vehicle {
 	static final int NEUTRAL = 0;
 	@Deprecated
 	static final int REVERSE = -1;
-
 	// End of legacy block
+
 	protected static final String[] FUEL_TYPES = { "PETROL", "DIESEL", "HYBRID", "ELECTRIC" };
 	protected int tankSize;
 	protected String fuelType;
@@ -71,8 +71,7 @@ public abstract class Car implements Vehicle {
 	 * Default constructor.
 	 * 
 	 * @param fuelAmount2
-	 * 
-	 *            indicates how much fuel there is in the tank
+	 *            indicates how much fuel to put in the tank
 	 * @param chassisNumber
 	 */
 	public Car(float fuelAmount2, String chassisNumber) {
@@ -103,22 +102,13 @@ public abstract class Car implements Vehicle {
 	 */
 	protected boolean checkGearForStarting() {
 		if ((currentGear < Gears.REVERSE) || (currentGear > Gears.FIRST)) {
-			System.out.println("Please make sure you are in the correct gear(NEUTRAL, FIRST or REVERSE)");
+			System.out.println("Gear " + currentGear + " is not valid.\n"
+					+ "Please make sure you are in the correct gear(NEUTRAL, FIRST or REVERSE)");
 			// this line could System.exit(1) I chose to simply return an error
 			// message in the following return statement
 			return false;
 		}
 		return true;
-	}
-
-	public void start() {
-		if (!this.checkGearForStarting())
-			return;
-		this.distance = 0; // resets the total driven distance
-		this.consumption = 0; // resets the total consumption since started
-		this.pollution = 0; // resets the total pollution since started
-		this.started = true;
-		System.out.println(this.toString() + " started.");
 	}
 
 	/**
@@ -136,12 +126,23 @@ public abstract class Car implements Vehicle {
 			System.out.println("Error: Invalid gear. Current gear is: " + this.currentGear);
 			throw new IllegalArgumentException(gear + " is not a valid gear.");
 		}
+	
+	}
 
+	public void start() {
+		if (!this.checkGearForStarting())
+			return;
+		this.distance = 0; // resets the total driven distance
+		this.consumption = 0; // resets the total consumption since started
+		this.pollution = 0; // resets the total pollution since started
+		this.started = true;
+		System.out.println(this.toString() + " started.");
 	}
 
 	/**
 	 * Drives the Car for some distance defined as double - polymorphism
-	 * @throws NotEnoughFuelException 
+	 * 
+	 * @throws NotEnoughFuelException
 	 * 
 	 */
 	public void drive(float distance) throws NotEnoughFuelException {
@@ -157,7 +158,7 @@ public abstract class Car implements Vehicle {
 			System.out.println("Cannot drive so much, not enough fuel.");
 			throw new NotEnoughFuelException("Insufficient fuel for " + distance + " kilometers.");
 		}
-		
+
 		this.distance += distance;
 		this.consumption += consumedFuel;
 		this.fuelAmount -= consumedFuel;
@@ -201,9 +202,13 @@ public abstract class Car implements Vehicle {
 	 * Drives the Car for some distance defined as double - polymorphism
 	 * 
 	 * @param distance
-	 * @throws NotEnoughFuelException 
+	 * @throws NotEnoughFuelException
 	 */
-	public void drive(double distance) throws NotEnoughFuelException { // artifice for double type parameter
+	public void drive(double distance) throws NotEnoughFuelException { // artifice
+																		// for
+																		// double
+																		// type
+																		// parameter
 		this.drive((float) distance);
 	}
 

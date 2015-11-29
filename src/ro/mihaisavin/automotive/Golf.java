@@ -20,10 +20,10 @@ public class Golf extends Volkswagen {
 
 		fuelType = FUEL_TYPES[1]; // diesel engine
 		standardAverageFuelConsumption = 4.3f;
-		averagePollution = 70; // gramms per KM
 		tankSize = 55;
+		averagePollution = 70; // gramms per KM - pollutes a whole LOT ! ;)
 	}
-
+	
 	protected float consume(float distance) { //
 		float amountConsumed = distance / 100 * standardAverageFuelConsumption; // average
 		// fuel

@@ -13,7 +13,7 @@ public class CarTest {
 
 	@Before
 	public void setup() {
-		testCar = new Golf(4.7f, "SAV123");
+		testCar = new Logan(4.7f, "SAV123");
 	}
 
 	@Test
@@ -95,9 +95,40 @@ public class CarTest {
 	@Test
 	public void checkGearCheckerForStarting_invalidInexistentGear_2() {
 		testCar.currentGear = -99;
-		if (testCar.checkGearForStarting()) {
+		if (testCar.checkGearForStarting()) { // "scris cu picioru" way
 			fail();
 		}
+		assertFalse(testCar.checkGearForStarting()); // elegant way
+	}
+
+	@Test
+	public void checkStart_validState() {
+		testCar.start();
+		assertTrue(testCar.started);
+	}
+
+	@Test
+	public void checkStart_wrongGear() {
+		testCar.shiftGear(4);
+		testCar.start();
+		assertFalse(testCar.started);
+	}
+
+	@Test
+	public void checkStart_alienGear1() {
+		testCar.currentGear = 1982; // normally this should not be in normal
+									// conditions, but who knows :D
+		testCar.start();
+		assertFalse(testCar.started);
+	}
+
+	@Test
+	public void checkStart_alienGear2() {
+		testCar.currentGear = -Integer.MAX_VALUE; // normally this should not be
+													// in normal
+		// conditions, but who knows :D
+		testCar.start();
+		assertFalse(testCar.started);
 	}
 
 	@Test
@@ -122,25 +153,36 @@ public class CarTest {
 		testCar.shiftGear(Gears.NEUTRAL);
 		testCar.drive(10);
 	}
-	
+
 	@Test(expected = NotEnoughFuelException.class)
 	public void checkDrive_distanceTooLong_insufficientFuel() throws NotEnoughFuelException {
-		//should throw exception		
+		// should throw exception
 		float tourOfTheWorld_times100 = 12742 * 100; // a lot of Kilometers :)
 		testCar.start();
-		testCar.shiftGear(Gears.FIFTH); 	//Why does this WORK while
-//		testCar.shiftGear(FIRST);			//this does NOT work?
+		testCar.shiftGear(Gears.FIFTH); // Why does this WORK while
+		// testCar.shiftGear(FIRST); //this does NOT work?
 		testCar.drive(tourOfTheWorld_times100);
-		
-		
 	}
-	
-	
-	
+
 	@Test
 	public void checkGetSAFuelConsumption() {
-		// Nothing to test really. It's a simple getter so I don't think it's
-		// the case to test something. Right?!
+		// Nothing to test really. It's a simple getter so as it was stated
+		// during the course presentation I think it's not
+		// the case to test something like this,
+		//
+		// or the other getters either.
+		//
+		// Right?!
+		// But still!!
+		float expected = 4.7f; // this value is hardcoded for the
+								// Car-Dacia-Logan
+		assertEquals(expected, testCar.getStandardAverageFuelConsumption(), 0);
+	}
+	
+	@Test
+	public void checkStop() {
+		testCar.stop();
+		assertFalse(testCar.started);
 	}
 
 	//
